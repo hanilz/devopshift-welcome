@@ -1,18 +1,5 @@
-terraform {
-  required_providers {
-    time = {
-      source  = "hashicorp/time"
-      version = "0.7.2"  # Make sure to use the version that match latest version
-    }
-  }
-}
-
 resource "time_sleep" "wait_for_ip" {
   create_duration = "30s"  # Introduce a delay of 30 seconds
-}
-
-provider "aws" {
-  region = var.region
 }
 
 variable "region" {
@@ -44,10 +31,4 @@ resource "aws_instance" "vm" {
   tags = {
     Name = "hanil-vm"
   }
-}
-
-output "vm_public_ip" {
-  value       = aws_instance.vm.public_ip
-  depends_on  = [time_sleep.wait_for_ip]  # Wait for the time_sleep resource to complete
-  description = "Public IP address of the VM"
 }
