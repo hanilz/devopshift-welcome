@@ -22,6 +22,13 @@ resource "aws_security_group" "sg" {
     }
 }
 
+resource "null_resource" "run_script" {
+  provisioner "local-exec" {
+    command = "echo 'Running a script after provisioning.'"
+  }
+}
+
+
 resource "aws_instance" "vm" {
   ami           = "ami-0c02fb55956c7d316" # Amazon Linux 2 AMI in us-east-1
   instance_type = "t2.micro"
