@@ -46,3 +46,5 @@ terraform.rc
 code/aws/solutions/lab103/.terraform.lock.hcl
 **target_health.txt
 **/.terraform.lock.hcl
+
+*.DS_Store
