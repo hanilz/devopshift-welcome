@@ -72,7 +72,7 @@ resource "aws_lb_listener" "listener" {
 }
 
 resource "aws_launch_template" "lt" {
-	name_prefix   = "app-template"
+	name_prefix   = "hanil-app-template"
 	image_id      = data.aws_ami.ubuntu.id
 	instance_type = var.instance_type
 
@@ -87,7 +87,6 @@ resource "aws_launch_template" "lt" {
   	}
 }
 
-# Auto Scaling Group
 resource "aws_autoscaling_group" "asg" {
 	vpc_zone_identifier = var.public_subnets
 	desired_capacity    = var.min_instances
