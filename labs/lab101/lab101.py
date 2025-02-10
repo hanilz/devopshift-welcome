@@ -1,6 +1,6 @@
 servers = {"srv1": True, "srv2": False}
 
-srv = input("Please enter server name to check: ")
+srv = input("Please enter server name to check: ").strip()
 
 if not srv:
     raise ValueError("Invalid Input!")
