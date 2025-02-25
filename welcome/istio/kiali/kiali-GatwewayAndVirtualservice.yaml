@@ -89,3 +89,25 @@ spec:
         host: prometheus
         port:
           number: 9090
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: pgadmin4
+  namespace: istio-system
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - istio-ingressgateway
+  http:
+  - match:
+      - uri:
+          prefix: /pgadmin4
+    rewrite:
+      uri: /pgadmin4
+    route:
+    - destination:
+        host: pgadmin4-service
+        port:
+          number: 8088
