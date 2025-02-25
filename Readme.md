@@ -12,3 +12,21 @@ For destroying:
 ```bash
 docker-compose down -v
 ```
+
+## Kubernetes Task
+Files are in `exam-code/kubernetes`
+
+backend service: 
+```bash
+kubectl apply -f exam-be-deployment.yaml
+```
+
+frontend service: 
+```bash
+kubectl apply -f exam-fe-deployment.yaml
+```
+
+mysql service: 
+```bash
+kubectl apply -f exam-mysql-deployment.yaml
+```
