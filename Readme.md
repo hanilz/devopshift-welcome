@@ -1,4 +1,14 @@
-WELCOME TO DEVOPSHIFT LABS
+# Welcome To Hanil Zarbailov's Docker, Docker-Compose and K8S Exam Repo
 
-To configure your GIT Repositroy in this IDE please follow the instruction in the link below:
-[Setting up your repo](https://docs.google.com/document/d/1KK8v0CuBd7psSA7v2BUK8LtWGcWr4EpWZL7Ecf8J2Us/edit?usp=sharing)
+## Docker-Compose Task
+Files are in `exam-code/docker`.
+
+For creating: 
+```bash
+docker-compose up -d
+```
+
+For destroying: 
+```bash
+docker-compose down -v
+```

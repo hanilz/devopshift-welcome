@@ -1,9 +1,49 @@
 services:
   web:
-
+    build: fe/.
+    depends_on:
+      mysqldb:
+        condition: service_healthy
+    ports:
+      - "5002:5002"
+    networks:
+      - app_layer
 
   backend-service:
+    build: be/.
+    depends_on:
+      mysqldb:
+        condition: service_healthy
+    ports:
+      - "5001:5001"
+    networks:
+      - app_layer
+    environment:
+      - MYSQL_HOST=mysqldb
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=123456
+      - MYSQL_NAME=crypto_db
 
 
   mysqldb:
-      
+    platform: linux/x86_64
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=crypto_db
+    ports:
+      - "3306:3306"
+    networks:
+      - app_layer
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+
+networks:
+  app_layer:
+    driver: bridge
+
+volumes:
+  db_data:
