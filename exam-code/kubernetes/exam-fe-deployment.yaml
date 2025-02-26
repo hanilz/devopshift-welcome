@@ -24,10 +24,10 @@ kind: Service
 metadata:
   name: exam-fe-lb
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: exam-fe-deployment
   ports:
     - protocol: TCP
-      port: 80
+      port: 5002
       targetPort: 5002
