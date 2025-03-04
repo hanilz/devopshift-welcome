@@ -32,7 +32,7 @@ pipeline {
                                     pip install flake8
                                 fi
                                 echo 'Running flake8 lint...'
-                                flake8 $PROJECT_HOME/src
+                                flake8 ${PROJECT_HOME}/src
                                 echo 'Finished flake8 lint.'
                             '''
                         }
@@ -48,7 +48,7 @@ pipeline {
                                     pip install bandit
                                 fi
                                 echo 'Running bandit security scan...'
-                                bandit -r $PROJECT_HOME/src
+                                bandit -r ${PROJECT_HOME}/src
                                 echo 'Finished bandit security scan.'
                             '''
                         }
@@ -70,9 +70,9 @@ pipeline {
                             fi
 
                             # Delete previously built virtualenv and create a new one
-                            rm -rf $PYENV_HOME
-                            virtualenv $PYENV_HOME
-                            source $PYENV_HOME/bin/activate
+                            rm -rf ${PYENV_HOME}
+                            virtualenv ${PYENV_HOME}
+                            source ${PYENV_HOME}/bin/activate
 
                             # Install required Python packages
                             pip install -r requirements.txt
@@ -85,15 +85,15 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 dir("${PROJECT_HOME}") {
-                    docker build -t $DOCKER_REGISTRY/$REPO_NAME:$BUILD_NUMBER .
-                    docker tag $DOCKER_REGISTRY/$REPO_NAME:$BUILD_NUMBER $DOCKER_REGISTRY/$REPO_NAME:latest
+                    docker build -t ${DOCKER_REGISTRY}/${REPO_NAME}:${BUILD_NUMBER} .
+                    docker tag ${DOCKER_REGISTRY}/${REPO_NAME}:${BUILD_NUMBER} ${DOCKER_REGISTRY}/${REPO_NAME}:latest
                 }
             }
         }
 
         stage('Run Tests in Container') {
             steps {
-                docker run --rm $DOCKER_REGISTRY/$REPO_NAME:$BUILD_NUMBER pytest tests/
+                docker run --rm ${DOCKER_REGISTRY}/${REPO_NAME}:${BUILD_NUMBER} pytest tests/
             }
         }
 
@@ -110,7 +110,7 @@ pipeline {
 
                             docker-compose up -d
                             sleep 10  # Allow services to start
-                            curl -f http://localhost:$PORT || exit 1
+                            curl -f http://localhost:${PORT} || exit 1
                             docker-compose down
                         '''
                     }
@@ -120,9 +120,9 @@ pipeline {
         stage('Run Tests in Container') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                    echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-                    docker push $DOCKER_REGISTRY/$REPO_NAME:$BUILD_NUMBER
-                    docker push $DOCKER_REGISTRY/$REPO_NAME:latest
+                    echo ${DOCKER_PASS} | docker login -u ${DOCKER_USER} --password-stdin
+                    docker push ${DOCKER_REGISTRY}/${REPO_NAME}:${BUILD_NUMBER}
+                    docker push ${DOCKER_REGISTRY}/${REPO_NAME}:latest
                 }
             }
         }
